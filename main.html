@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Text to ASL</h2>
+
+<form id="myForm">
+
+  <label for="dropdown">Select track:</label>
+        <select id="dropdown" name="dropdown">
+            <option value=""></option>
+
+            <option value="option1">A</option>
+            <option value="option2">1</option>
+            <option value="option3">2</option>
+            <option value="option4">3</option>
+        </select>
+        <br/>
+        <label for="hour">Hour:</label>
+        <select id="hour" name="hour">
+            <option value=""></option>
+
+        </select>
+        <br><br>
+
+        <label for="minutes">Minutes:</label>
+        <select id="minutes" name="minutes">
+            <option value=""></option>
+
+        </select>
+        <br><br>
+        
+        <label for="Direction">Direction:</label>
+        <select id="Direction" name="Direction">
+            <option value=""></option>
+            <option value="option1">Outbound</option>
+            <option value="option2">Eastbound</option>
+        </select>
+        <br><br>
+
+        <label for="Agency">Agency:</label>
+        <select id="Agency" name="Agency">
+            <option value=""></option>
+            <option value="option1">The New Jersey Trasit</option>
+        </select>
+        <br><br>
+
+        <label for="Line">Line:</label>
+        <select id="Line" name="Line">
+            <option value=""></option>
+            <option value="option1">Northeast Corridor Line</option>
+            <option value="option1">North Jersey Coast Line</option>
+            <option value="option1">Raritan Valley Line</option>
+        </select>
+        <br><br>
+
+        <br><br>
+  <input type="submit" value="Submit">
+</form> 
+
+<script>
+    // Generate hour options dynamically
+    var hourDropdown = document.getElementById("hour");
+
+    for (var i = 1; i <= 12; i++) {
+        var option = document.createElement("option");
+        option.text = i.toString();
+        option.value = i.toString();
+        hourDropdown.add(option);
+    }
+</script>
+
+<script>
+    // Generate minute options dynamically
+    var minutesDropdown = document.getElementById("minutes");
+
+    for (var i = 0; i <= 59; i++) {
+        var option = document.createElement("option");
+        var minuteValue = i < 10 ? "0" + i : i.toString(); // Prefix single-digit minutes with a leading zero
+        option.text = minuteValue;
+        option.value = minuteValue;
+        minutesDropdown.add(option);
+    }
+</script>
+
+<script> // Add event listener to form submission
+
+ // Add event listener to form submission
+ var form = document.getElementById("myForm");
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            var dropdownValue = document.getElementById("dropdown").value;
+            var hourValue = document.getElementById("hour").value;
+            var minutesValue = document.getElementById("minutes").value;
+
+            var sentence = "You selected: ";
+            if (dropdownValue) {
+                sentence += dropdownValue + ", ";
+            }
+            if (hourValue) {
+                sentence += hourValue + " hour, ";
+            }
+            if (minutesValue) {
+                sentence += minutesValue + " minutes.";
+            }
+
+            alert(sentence);
+    });
+    </script>
+
+</body>
