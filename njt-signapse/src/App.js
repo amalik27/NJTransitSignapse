@@ -1,25 +1,28 @@
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Header from './components/header';
+import JsonData from './data/data.json';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export class App extends Component {
+  state = {
+    landingPageData: {},
+  }
+  getlandingPageData() {
+    this.setState({landingPageData : JsonData})
+  }
+
+  componentDidMount() {
+    this.getlandingPageData();
+  }
+
+  render() {
+    return (
+      <div>
+        <Header data={this.state.landingPageData.Header} />
+      </div>
+    )
+  }
 }
 
 export default App;
