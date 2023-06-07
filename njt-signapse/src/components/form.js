@@ -13,6 +13,7 @@ function App() {
   const [data, setData] = useState([]);
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
+  const [generatedMessage, setGeneratedMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,6 +49,22 @@ function App() {
     console.log("Last Stop:", lastStop);
     console.log("Hours:", hours);
     console.log("Minutes:", minutes);
+
+    const stopsText = stops
+      .map((stop) => stop.value)
+      .filter((value) => value.trim() !== ""); // Filter out empty stops
+    let message = `Attention, Newark Penn Station passengers. Now boarding on track ${tracks} is the ${hours}:${minutes}, ${direction}, ${agency}, ${line} train to ${destination}`;
+
+    if (stopsText.length > 0) {
+      const stopsWithCommas = stopsText.join(", "); // Add comma between each stop
+      message += ` stopping at ${stopsWithCommas} and ${lastStop}`;
+    } else {
+      message += ` stopping at ${lastStop}`;
+    }
+
+    message += ". Please watch the gap when boarding the train.";
+
+    setGeneratedMessage(message);
   };
 
   const handleAddStop = () => {
@@ -214,7 +231,7 @@ function App() {
 
           {stops.map((stop, index) => (
             <div className="select-container" key={stop.id}>
-              <label htmlFor={stop.id}>{`Stop ${index + 1}`}</label>             
+              <label htmlFor={stop.id}>{`Stop ${index + 1}`}</label>
               <select
                 id={stop.id}
                 value={stop.value}
@@ -265,6 +282,7 @@ function App() {
           <button type="submit">Submit</button>
         </form>
       </div>
+      <div className="message">{generatedMessage}</div>
     </>
   );
 }
