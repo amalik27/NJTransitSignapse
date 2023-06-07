@@ -8,9 +8,11 @@ function App() {
   const [line, setLine] = useState("");
   const [tracks, setTracks] = useState("");
   const [direction, setDirection] = useState("");
-  const [stops, setStops] = useState([{ id: "stop1", value: "" }]);
+  const [stops, setStops] = useState([]);
   const [lastStop, setLastStop] = useState("");
   const [data, setData] = useState([]);
+  const [hours, setHours] = useState("");
+  const [minutes, setMinutes] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +46,8 @@ function App() {
       );
     });
     console.log("Last Stop:", lastStop);
+    console.log("Hours:", hours);
+    console.log("Minutes:", minutes);
   };
 
   const handleAddStop = () => {
@@ -68,6 +72,84 @@ function App() {
       <div className="center">
         <form className="form" onSubmit={handleSubmitCode}>
           <div className="select-container">
+            <label htmlFor="tracks">Tracks:</label>
+            <select
+              id="tracks"
+              value={tracks}
+              onChange={(e) => setTracks(e.target.value)}
+              name="tracks"
+              required
+            >
+              <option value="">Select an option</option>
+              {data.length > 0 &&
+                data.map((item) =>
+                  item["Tracks"].map((option, index) => (
+                    <option key={`tracks_${index}`} value={option}>
+                      {option}
+                    </option>
+                  ))
+                )}
+            </select>
+          </div>
+
+          <div className="select-container">
+            <label htmlFor="hours">Hours:</label>
+            <select
+              id="hours"
+              value={hours}
+              onChange={(e) => setHours(e.target.value)}
+              name="hours"
+              required
+            >
+              <option value="">Select an option</option>
+              {Array.from(Array(24).keys()).map((hour) => (
+                <option key={`hour_${hour}`} value={hour}>
+                  {hour}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="select-container">
+            <label htmlFor="minutes">Minutes:</label>
+            <select
+              id="minutes"
+              value={minutes}
+              onChange={(e) => setMinutes(e.target.value)}
+              name="minutes"
+              required
+            >
+              <option value="">Select an option</option>
+              {Array.from(Array(60).keys()).map((minute) => (
+                <option key={`minute_${minute}`} value={minute}>
+                  {minute}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="select-container">
+            <label htmlFor="direction">Direction:</label>
+            <select
+              id="direction"
+              value={direction}
+              onChange={(e) => setDirection(e.target.value)}
+              name="direction"
+              required
+            >
+              <option value="">Select an option</option>
+              {data.length > 0 &&
+                data.map((item) =>
+                  item["Direction"].map((option, index) => (
+                    <option key={`direction_${index}`} value={option}>
+                      {option}
+                    </option>
+                  ))
+                )}
+            </select>
+          </div>
+
+          <div className="select-container">
             <label htmlFor="agency">Agency:</label>
             <select
               id="agency"
@@ -81,27 +163,6 @@ function App() {
                 data.map((item) =>
                   item["Agency"].map((option, index) => (
                     <option key={`agency_${index}`} value={option}>
-                      {option}
-                    </option>
-                  ))
-                )}
-            </select>
-          </div>
-
-          <div className="select-container">
-            <label htmlFor="destination">Destination:</label>
-            <select
-              id="destination"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              name="destination"
-              required
-            >
-              <option value="">Select an option</option>
-              {data.length > 0 &&
-                data.map((item) =>
-                  item["Destination"].map((option, index) => (
-                    <option key={`destination_${index}`} value={option}>
                       {option}
                     </option>
                   ))
@@ -131,19 +192,19 @@ function App() {
           </div>
 
           <div className="select-container">
-            <label htmlFor="tracks">Tracks:</label>
+            <label htmlFor="destination">Destination:</label>
             <select
-              id="tracks"
-              value={tracks}
-              onChange={(e) => setTracks(e.target.value)}
-              name="tracks"
+              id="destination"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              name="destination"
               required
             >
               <option value="">Select an option</option>
               {data.length > 0 &&
                 data.map((item) =>
-                  item["Tracks"].map((option, index) => (
-                    <option key={`tracks_${index}`} value={option}>
+                  item["Destination"].map((option, index) => (
+                    <option key={`destination_${index}`} value={option}>
                       {option}
                     </option>
                   ))
@@ -151,38 +212,14 @@ function App() {
             </select>
           </div>
 
-          <div className="select-container">
-            <label htmlFor="direction">Direction:</label>
-            <select
-              id="direction"
-              value={direction}
-              onChange={(e) => setDirection(e.target.value)}
-              name="direction"
-              required
-            >
-              <option value="">Select an option</option>
-              {data.length > 0 &&
-                data.map((item) =>
-                  item["Direction"].map((option, index) => (
-                    <option key={`direction_${index}`} value={option}>
-                      {option}
-                    </option>
-                  ))
-                )}
-            </select>
-          </div>
-
-          {stops.map((stop) => (
+          {stops.map((stop, index) => (
             <div className="select-container" key={stop.id}>
-              <label htmlFor={stop.id}>{`${
-                stop.id === "stop1" ? "First" : "Stop " + stop.id.slice(4)
-              }`}</label>
+              <label htmlFor={stop.id}>{`Stop ${index + 1}`}</label>             
               <select
                 id={stop.id}
                 value={stop.value}
                 onChange={(e) => handleStopChange(e, stop.id)}
                 name={stop.id}
-                required
               >
                 <option value="">Select an option</option>
                 {data.length > 0 &&
@@ -194,13 +231,15 @@ function App() {
                     ))
                   )}
               </select>
-              {stop.id !== "stop1" && (
-                <button type="button" onClick={() => handleRemoveStop(stop.id)}>
-                  Remove
-                </button>
-              )}
+              <button type="button" onClick={() => handleRemoveStop(stop.id)}>
+                Remove
+              </button>
             </div>
           ))}
+
+          <button type="button" onClick={handleAddStop}>
+            Add Stop
+          </button>
 
           <div className="select-container">
             <label htmlFor="lastStop">Last Stop:</label>
@@ -222,10 +261,6 @@ function App() {
                 )}
             </select>
           </div>
-
-          <button type="button" onClick={handleAddStop}>
-            Add Stop
-          </button>
 
           <button type="submit">Submit</button>
         </form>
