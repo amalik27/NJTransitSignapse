@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
+import "./styles.css";
 
 function App() {
   const [agency, setAgency] = useState("");
@@ -89,7 +90,7 @@ function App() {
       <div className="center">
         <form className="form" onSubmit={handleSubmitCode}>
           <div className="select-container">
-            <label htmlFor="tracks">Tracks:</label>
+            <label htmlFor="tracks">Track:</label>
             <select
               id="tracks"
               value={tracks}
@@ -138,8 +139,11 @@ function App() {
             >
               <option value="">Select an option</option>
               {Array.from(Array(60).keys()).map((minute) => (
-                <option key={`minute_${minute}`} value={minute}>
-                  {minute}
+                <option
+                  key={`minute_${minute}`}
+                  value={minute.toString().padStart(2, "0")}
+                >
+                  {minute.toString().padStart(2, "0")}
                 </option>
               ))}
             </select>
@@ -281,8 +285,8 @@ function App() {
 
           <button type="submit">Submit</button>
         </form>
+        <div className="message">{generatedMessage}</div>
       </div>
-      <div className="message">{generatedMessage}</div>
     </>
   );
 }
