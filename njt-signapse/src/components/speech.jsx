@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./speech.css";
 
-function TextToSpeech() {
-  const [text, setText] = useState("");
+function TextToSpeech(props) {
+  const { result } = props;
+  const [text, setText] = useState(result);
   const [audioFile, setAudioFile] = useState(null);
   const [apiKey, setApiKey] = useState("");
   const [voiceName, setVoiceName] = useState("en-US-Wavenet-I");
@@ -10,8 +11,9 @@ function TextToSpeech() {
   const [error, setError] = useState(null);
   const audioRef = useRef();
 
-  // console.log(process.env.REACT_APP_API_KEY);
-
+  useEffect(() => {
+    setText(result);
+  }, [result]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function TextToSpeech() {
 
     try {
       const response = await fetch(
-        `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${process.env.REACT_APP_API_KEYpiKey}`,
+        `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${process.env.REACT_APP_API_KEY}`,
         {
           method: "POST",
           headers: {
