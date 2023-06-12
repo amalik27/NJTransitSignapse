@@ -18,7 +18,7 @@ export class Header extends Component {
                 <Link to="/speech">Speech</Link>
               </li>
               <li>
-                <Link to="/combined">Combined</Link>
+                <Link to="/">Combined</Link>
               </li>
             </ul>
           </nav>
@@ -26,7 +26,7 @@ export class Header extends Component {
           <Routes>
             <Route path="/form" element={<Form />} />
             <Route path="/speech" element={<TextToSpeech />} />
-            <Route path="/combined" element={<Combined />} />
+            <Route path="/" element={<Combined />} />
           </Routes>
         </div>
       </Router>

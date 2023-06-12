@@ -72,7 +72,6 @@ function TextToSpeech(props) {
   return (
     <div className="container">
       <h1>Text to Speech</h1>
-
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="text">Text</label>
@@ -82,6 +81,7 @@ function TextToSpeech(props) {
             id="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            placeholder="Enter text into the field and select a voice model to generate different synthesized voices."
           ></textarea>
         </div>
 
@@ -102,13 +102,14 @@ function TextToSpeech(props) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="apiKey">Google API key</label>
+          <label htmlFor="apiKey">Google API key (optional)</label>
           <input
             type="text"
             className="form-control"
             id="apiKey"
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Optional - to test out different keys"
           />
         </div>
 
@@ -120,7 +121,6 @@ function TextToSpeech(props) {
           {loading ? "Loading..." : "Submit"}
         </button>
       </form>
-
       {audioFile && (
         <div>
           <audio
@@ -131,7 +131,6 @@ function TextToSpeech(props) {
           />
         </div>
       )}
-
       {error && <div className="error">{error}</div>}
     </div>
   );

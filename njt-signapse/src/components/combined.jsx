@@ -165,6 +165,7 @@ function App() {
     <>
       {showForm ? (
         <div className="center">
+            <p>Enter the required fields below and press the "Speak" button to generate the text and an audio output.</p>
           <form className="form" onSubmit={handleSubmitCode}>
             <div className="select-container">
               <label htmlFor="tracks">Track:</label>

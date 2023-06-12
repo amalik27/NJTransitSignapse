@@ -91,6 +91,7 @@ function App() {
   return (
     <>
       <div className="center">
+        <p>Select all the required fields and hit the submit button to generate a text output.</p>
         <form className="form" onSubmit={handleSubmitCode}>
           <div className="select-container">
             <label htmlFor="tracks">Track:</label>
@@ -286,7 +287,7 @@ function App() {
             </select>
           </div>
 
-          <button type="submit">Speak</button>
+          <button type="submit">Generate text</button>
         </form>
         <div className="message">{generatedMessage}</div>
       </div>
