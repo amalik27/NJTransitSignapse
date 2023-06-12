@@ -283,7 +283,7 @@ function App() {
             </select>
           </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit">Speak</button>
         </form>
         <div className="message">{generatedMessage}</div>
       </div>
