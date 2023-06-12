@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import "./styles.css";
-import Speech from "./speech";
+import "./combined.css";
 
 function App() {
   const [agency, setAgency] = useState("");
@@ -186,7 +186,6 @@ function App() {
                   )}
               </select>
             </div>
-
             <div className="select-container">
               <label htmlFor="hours">Hours:</label>
               <select
@@ -204,7 +203,6 @@ function App() {
                 ))}
               </select>
             </div>
-
             <div className="select-container">
               <label htmlFor="minutes">Minutes:</label>
               <select
@@ -225,7 +223,6 @@ function App() {
                 ))}
               </select>
             </div>
-
             <div className="select-container">
               <label htmlFor="direction">Direction:</label>
               <select
@@ -246,7 +243,6 @@ function App() {
                   )}
               </select>
             </div>
-
             <div className="select-container">
               <label htmlFor="agency">Agency:</label>
               <select
@@ -267,7 +263,6 @@ function App() {
                   )}
               </select>
             </div>
-
             <div className="select-container">
               <label htmlFor="line">Line:</label>
               <select
@@ -288,7 +283,6 @@ function App() {
                   )}
               </select>
             </div>
-
             <div className="select-container">
               <label htmlFor="destination">Destination:</label>
               <select
@@ -309,7 +303,6 @@ function App() {
                   )}
               </select>
             </div>
-
             {stops.map((stop, index) => (
               <div className="select-container" key={stop.id}>
                 <label htmlFor={stop.id}>{`Stop ${index + 1}`}</label>
@@ -334,11 +327,9 @@ function App() {
                 </button>
               </div>
             ))}
-
             <button type="button" onClick={handleAddStop}>
               Add Stop
             </button>
-
             <div className="select-container">
               <label htmlFor="lastStop">Last Stop:</label>
               <select
@@ -359,8 +350,9 @@ function App() {
                   )}
               </select>
             </div>
-
-            <button type="submit">Speak</button>
+            <button className="button" type="submit">
+              Speak
+            </button>
           </form>
 
           {error && <div className="error">{error}</div>}
@@ -376,11 +368,17 @@ function App() {
                 controls
                 onEnded={handleStopAudio} // Stop audio when it finishes playing
               />
-              <button onClick={handlePlayAudio}>Play Audio</button>
-              <button onClick={handleStopAudio}>Stop Audio</button>
+              <button className="button" onClick={handlePlayAudio}>
+                Play Audio
+              </button>
+              <button className="button" onClick={handleStopAudio}>
+                Stop Audio
+              </button>
             </div>
           )}
-          <button onClick={handleGoBack}>Go Back</button>
+          <button className={`nav-button`} onClick={handleGoBack}>
+            Go Back
+          </button>
         </div>
       )}
     </>
