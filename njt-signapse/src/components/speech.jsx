@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import "./speech.css";
 
 function TextToSpeech() {
   const [text, setText] = useState("");
@@ -11,7 +12,7 @@ function TextToSpeech() {
 
   // console.log(process.env.REACT_APP_API_KEY);
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -20,7 +21,7 @@ function TextToSpeech() {
 
     try {
       const response = await fetch(
-        `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${apiKey}`,
+        `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${process.env.REACT_APP_API_KEYpiKey}`,
         {
           method: "POST",
           headers: {
