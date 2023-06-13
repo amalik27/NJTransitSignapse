@@ -31,6 +31,8 @@ export class Header extends Component {
             <Route path="/form" element={<Form />} />
             <Route path="/speech" element={<TextToSpeech />} />
             <Route path="/" element={<Combined />} />
+            <Route path="/signapse" element={<Signapse />} />
+            
           </Routes>
         </div>
       </Router>
