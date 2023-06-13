@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./speech.css";
 
-function TextToSpeech() {
-  const [text, setText] = useState("");
+function TextToSpeech(props) {
+  const { result } = props;
+  const [text, setText] = useState(result);
   const [audioFile, setAudioFile] = useState(null);
   const [apiKey, setApiKey] = useState("");
   const [voiceName, setVoiceName] = useState("en-US-Wavenet-I");
@@ -10,8 +11,9 @@ function TextToSpeech() {
   const [error, setError] = useState(null);
   const audioRef = useRef();
 
-  // console.log(process.env.REACT_APP_API_KEY);
-
+  useEffect(() => {
+    setText(result);
+  }, [result]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function TextToSpeech() {
 
     try {
       const response = await fetch(
-        `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${process.env.REACT_APP_API_KEYpiKey}`,
+        `https://texttospeech.googleapis.com/v1beta1/text:synthesize?key=${process.env.REACT_APP_API_KEY}`,
         {
           method: "POST",
           headers: {
@@ -70,7 +72,6 @@ function TextToSpeech() {
   return (
     <div className="container">
       <h1>Text to Speech</h1>
-
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="text">Text</label>
@@ -80,6 +81,7 @@ function TextToSpeech() {
             id="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            placeholder="Enter text into the field and select a voice model to generate different synthesized voices."
           ></textarea>
         </div>
 
@@ -100,13 +102,14 @@ function TextToSpeech() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="apiKey">Google API key</label>
+          <label htmlFor="apiKey">Google API key (optional)</label>
           <input
             type="text"
             className="form-control"
             id="apiKey"
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Optional - to test out different keys"
           />
         </div>
 
@@ -118,7 +121,6 @@ function TextToSpeech() {
           {loading ? "Loading..." : "Submit"}
         </button>
       </form>
-
       {audioFile && (
         <div>
           <audio
@@ -129,7 +131,6 @@ function TextToSpeech() {
           />
         </div>
       )}
-
       {error && <div className="error">{error}</div>}
     </div>
   );

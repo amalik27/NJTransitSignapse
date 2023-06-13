@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import "./styles.css";
+import Speech from "./speech";
 
 function App() {
   const [agency, setAgency] = useState("");
@@ -15,6 +16,7 @@ function App() {
   const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
   const [generatedMessage, setGeneratedMessage] = useState("");
+  const [result, setResult] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +68,7 @@ function App() {
     message += ". Please watch the gap when boarding the train.";
 
     setGeneratedMessage(message);
+    setResult(message);
   };
 
   const handleAddStop = () => {
@@ -88,6 +91,7 @@ function App() {
   return (
     <>
       <div className="center">
+        <p>Select all the required fields and hit the submit button to generate a text output.</p>
         <form className="form" onSubmit={handleSubmitCode}>
           <div className="select-container">
             <label htmlFor="tracks">Track:</label>
@@ -283,10 +287,11 @@ function App() {
             </select>
           </div>
 
-          <button type="submit">Speak</button>
+          <button type="submit">Generate text</button>
         </form>
         <div className="message">{generatedMessage}</div>
       </div>
+      {/* <Speech result={result} /> */}
     </>
   );
 }
