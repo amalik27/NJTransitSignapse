@@ -107,7 +107,7 @@ function App() {
 
     if (stopsText.length > 0) {
       const stopsWithCommas = stopsText.join(", "); // Add comma between each stop
-      message += ` stopping at ${stopsWithCommas} and ${lastStop}`;
+      message += ` stopping at ${stopsWithCommas}, and ${lastStop}`;
     } else {
       message += ` stopping at ${lastStop}`;
     }
