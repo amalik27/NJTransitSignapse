@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Form from './form';
 import TextToSpeech from './speech';
 import Combined from './combined';
+import Signapse from './signapse';
 
 export class Header extends Component {
   render() {
@@ -19,6 +20,9 @@ export class Header extends Component {
               </li>
               <li>
                 <Link to="/">Combined</Link>
+              </li>
+              <li>
+              <Link to="/signapse">Signapse</Link>
               </li>
             </ul>
           </nav>

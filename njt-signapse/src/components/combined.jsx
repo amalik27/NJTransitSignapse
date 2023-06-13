@@ -3,6 +3,7 @@ import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import "./styles.css";
 import "./combined.css";
+import './signapse';
 
 function App() {
   const [agency, setAgency] = useState("");
