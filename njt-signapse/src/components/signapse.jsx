@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Form from './form';
-import TextToSpeech from './speech';
-import Combined from './combined';
-import Signapse from './signapse';
-
 import axios from 'axios';
+
+export const postRequest = () => {
 
 // Authentication Request
 const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -23,18 +19,18 @@ authData.append('grant_type', 'client_credentials');
 axios.post('https://sign-stag.auth.eu-west-2.amazoncognito.com/oauth2/token', authData, { headers: authHeaders })
   .then(authResponse => {
     const accessToken = authResponse.data.access_token;
-    console.log(accessToken)
+    // console.log(accessToken)
 
     // Train Announcement Request
     const requestData = {
-      timing: '1035',
+      timing: '1045',
       destination: 'BAY',
       signLanguageType: 'ASL',
       messageType: 'Departure',
       line: 'NEC',
       platform: '1',
       metaData: {
-        messageId: 'messageId here - record of the request id of the client system',
+        messageId: 'messageId here - record of the request id of the client system ',
         tenantId: 'tenantId here - client which system',
         userRequestingId: 'userRequestingId here - person who made the request',
         requestTime: 'requestTime here - request time from the client side',
@@ -51,6 +47,8 @@ axios.post('https://sign-stag.auth.eu-west-2.amazoncognito.com/oauth2/token', au
       .then(response => {
         // Handle the response here
         console.log(response.data);
+        console.log(response.data.data.downloadLink);
+        
       })
       .catch(error => {
         // Handle the error here
@@ -66,12 +64,13 @@ axios.post('https://sign-stag.auth.eu-west-2.amazoncognito.com/oauth2/token', au
     //code to check if the data recieved.
   }, 1000);
 
-export class Header extends Component {
-  render() {
-    return (
-<></>
-    );
-  }
-}
 
-export default Header;
+  return axios.post()
+    .then(response => {
+      const downloadLink = response.data.data.downloadLink;
+      return downloadLink;
+    })
+    .catch(error => {
+      throw error;
+    });
+};

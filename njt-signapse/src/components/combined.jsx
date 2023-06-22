@@ -3,6 +3,7 @@ import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import "./styles.css";
 import "./combined.css";
+import axios from "axios";
 
 function App() {
   const [agency, setAgency] = useState("");
@@ -24,6 +25,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(true);
+  const [videoUrl, setVideoUrl] = useState("");
   const audioRef = useRef();
 
   useEffect(() => {
@@ -82,6 +84,69 @@ function App() {
     }
   };
 
+  const postRequest = async () => {
+    // Authentication Request
+    const clientId = process.env.REACT_APP_CLIENT_ID;
+    const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
+    const encodedCredentials = btoa(`${clientId}:${clientSecret}`);
+
+    const authHeaders = {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Basic ${encodedCredentials}`,
+    };
+
+    const authData = new URLSearchParams();
+    authData.append("grant_type", "client_credentials");
+
+    try {
+      const authResponse = await axios.post(
+        "https://sign-stag.auth.eu-west-2.amazoncognito.com/oauth2/token",
+        authData,
+        { headers: authHeaders }
+      );
+      const accessToken = authResponse.data.access_token;
+
+      // Train Announcement Request
+      const requestData = {
+        timing: "1145",
+        destination: "BAY",
+        signLanguageType: "ASL",
+        messageType: "Departure",
+        line: "NEC",
+        platform: "1",
+        metaData: {
+          messageId:
+            "messageId here -  record of the request id of the client system",
+          tenantId: "tenantId here - client which system",
+          userRequestingId:
+            "userRequestingId here - person who made the request",
+          requestTime: "requestTime here - request time from the client side",
+        },
+        updatedPlatform: "1",
+      };
+
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      };
+
+      const response = await axios.post(
+        "https://sign.client.api.stag.signapsesolutions.com/v1/sign-requests/train-announcements",
+        requestData,
+        { headers }
+      );
+
+      console.log(response.data);
+      console.log(response.data.data.downloadLink);
+
+      const downloadLink = response.data.data.downloadLink;
+      return downloadLink;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const handleSubmitCode = async (e) => {
     e.preventDefault();
 
@@ -123,6 +188,15 @@ function App() {
     setShowForm(false); // Hide the form
 
     await generateAudio(message);
+
+    try {
+      const downloadLink = await postRequest();
+      setVideoUrl(downloadLink);
+      console.log("videoUrl");
+      console.log(videoUrl);
+    } catch (error) {
+      // Handle the error
+    }
   };
 
   const handleGoBack = () => {
@@ -165,7 +239,10 @@ function App() {
     <>
       {showForm ? (
         <div className="center">
-            <p>Enter the required fields below and press the "Speak" button to generate the text and an audio output.</p>
+          <p>
+            Enter the required fields below and press the "Speak" button to
+            generate the text and an audio output.
+          </p>
           <form className="form" onSubmit={handleSubmitCode}>
             <div className="select-container">
               <label htmlFor="tracks">Track:</label>
@@ -377,6 +454,10 @@ function App() {
               </button>
             </div>
           )}
+          {videoUrl && (
+            <video src={videoUrl} controls autoPlay className="fit-video" />
+          )}
+
           <button className={`nav-button`} onClick={handleGoBack}>
             Go Back
           </button>
