@@ -1,27 +1,32 @@
 /* combined.css */
 .button {
-    background-color: #4caf50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 5px;
-    cursor: pointer;
-  }
-  
-  .nav-button:hover {
-    background-color: #0363bd;
-  }
-  
-  .nav-button:active {
-    background-color: #098297;
-  }
-  
-  .nav-button {
-    background-color: #147ddf;
-    width: 50%;
-  }
-  
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: #0363bd;
+}
+
+.nav-button:active {
+  background-color: #098297;
+}
+
+.nav-button {
+  background-color: #147ddf;
+  width: 50%;
+}
+
+.fit-video {
+  width: 25%;
+  height: 25%;
+  object-fit: contain;
+}
