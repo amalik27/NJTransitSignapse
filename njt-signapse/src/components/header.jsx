@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Form from './form';
 import TextToSpeech from './speech';
 import Combined from './combined';
-import Signapse from './signapse';
+import SignapseAPI from './signapseApi';
 
 export class Header extends Component {
   render() {
@@ -22,7 +22,10 @@ export class Header extends Component {
                 <Link to="/">Combined</Link>
               </li>
               <li>
-              <Link to="/signapse">Signapse</Link>
+              <Link to="/signapse">Signapse (console)</Link>
+              </li>
+              <li>
+              <Link to="/signapseApi">Signapse API only</Link>
               </li>
             </ul>
           </nav>
@@ -31,7 +34,7 @@ export class Header extends Component {
             <Route path="/form" element={<Form />} />
             <Route path="/speech" element={<TextToSpeech />} />
             <Route path="/" element={<Combined />} />
-            {/* <Route path="/signapse" element={<Signapse />} /> */}
+            <Route path="/signapseApi" element={<SignapseAPI />} />
             
           </Routes>
         </div>
